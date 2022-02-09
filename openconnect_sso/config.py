@@ -55,7 +55,8 @@ class ConfigNode:
         return cls(**d)
 
     def as_dict(self):
-        return attr.asdict(self)
+        return attr.asdict(self,
+                filter=attr.filters.exclude(attr.fields(Credentials).otp))
 
 
 @attr.s
@@ -88,6 +89,7 @@ def get_default_auto_fill_rules():
             AutoFillRule(selector="div[id=passwordError]", action="stop").as_dict(),
             AutoFillRule(selector="input[type=email]", fill="username").as_dict(),
             AutoFillRule(selector="input[type=password]", fill="password").as_dict(),
+            AutoFillRule(selector="input[type=tel]", fill="otp").as_dict(),
             AutoFillRule(selector="input[type=submit]", action="click").as_dict(),
         ]
     }
@@ -96,6 +98,7 @@ def get_default_auto_fill_rules():
 @attr.s
 class Credentials(ConfigNode):
     username = attr.ib()
+    otp = attr.ib(default=None)
 
     @property
     def password(self):

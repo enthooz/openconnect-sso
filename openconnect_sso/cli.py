@@ -109,6 +109,10 @@ def create_argparser():
     credentials_group.add_argument(
         "-u", "--user", help="Authenticate as the given user", default=None
     )
+    credentials_group.add_argument(
+        "-o", "--otp", help="Provide OTP code via CLI",
+        nargs='?', const=True, default=False
+    )
     return parser
 
 

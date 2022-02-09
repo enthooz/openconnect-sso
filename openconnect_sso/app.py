@@ -113,6 +113,11 @@ async def _run(args, cfg):
         credentials.password = getpass.getpass(prompt=f"Password ({args.user}): ")
         cfg.credentials = credentials
 
+    if args.otp and not credentials.otp:
+        credentials.otp = (getpass.getpass(prompt=f"OTP ({args.user}): ")
+                if args.otp == True else args.otp)
+        cfg.credentials = credentials
+
     if cfg.default_profile and not (args.use_profile_selector or args.server):
         selected_profile = cfg.default_profile
     elif args.use_profile_selector or args.profile_path:
